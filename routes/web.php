@@ -34,3 +34,9 @@ Route::post('/add_catagory', [AdminController::class,'add_catagory'])->name('hom
 Route::get('/delete_catagory/{id}', [AdminController::class,'delete_catagory'])->name('home');
 Route::get('/view_product', [AdminController::class,'view_product'])->name('home');
 Route::post('/add_product', [AdminController::class,'add_product'])->name('home');
+Route::get('/show_product', [AdminController::class,'show_product'])->name('home');
+Route::get('/delete_product/{id}', [AdminController::class,'delete_product'])->name('home');
+Route::get('/update_product/{id}', [AdminController::class,'update_product'])->name('home');
+Route::post('/update_product_confirm/{id}', [AdminController::class,'update_product_confirm'])->name('home');
+Route::get('/product_details/{id}', [HomeController::class,'product_details'])->name('home');
+Route::post('/add_cart/{id}', [HomeController::class,'add_cart'])->name('home');
