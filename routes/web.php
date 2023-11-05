@@ -40,3 +40,7 @@ Route::get('/update_product/{id}', [AdminController::class,'update_product'])->n
 Route::post('/update_product_confirm/{id}', [AdminController::class,'update_product_confirm'])->name('home');
 Route::get('/product_details/{id}', [HomeController::class,'product_details'])->name('home');
 Route::post('/add_cart/{id}', [HomeController::class,'add_cart'])->name('home');
+
+Route::get('/show_cart', [HomeController::class,'show_cart'])->name('home');
+Route::get('/remove_cart/{id}', [HomeController::class,'remove_cart'])->name('home');
+Route::get('/cash_order', [HomeController::class,'cash_order'])->name('home');
