@@ -46,3 +46,5 @@ Route::get('/remove_cart/{id}', [HomeController::class,'remove_cart'])->name('ho
 Route::get('/cash_order', [HomeController::class,'cash_order'])->name('home');
 Route::get('/stripe/{totalprice}', [HomeController::class,'stripe'])->name('home');
 Route::post('stripe/{totalprice}',[HomeController::class, 'stripePost'])->name('stripe.post');
+Route::get('/order', [AdminController::class,'order'])->name('home');
+Route::get('/delivered/{id}', [AdminController::class,'delivered'])->name('home');
