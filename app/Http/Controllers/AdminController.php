@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Catagory;
 use App\Models\Product;
 use App\Models\Order;
+use Illuminate\Contracts\View\View;
 
 class AdminController extends Controller
 {
@@ -97,5 +98,13 @@ class AdminController extends Controller
 
         $order->save();
         return redirect()->back()->with("message","");
+    }
+    public function searchdata(Request $request){
+        $searchText = $request->search;
+        $order = order::where('name','LIKE',"%$searchText")
+        ->orWhere('phone','LIKE',"%$searchText")
+        ->orWhere('product_title','LIKE',"%$searchText")->get();
+
+        return view("admin.order",compact("order"));
     }
 }
