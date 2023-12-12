@@ -49,3 +49,6 @@ Route::post('stripe/{totalprice}',[HomeController::class, 'stripePost'])->name('
 Route::get('/order', [AdminController::class,'order'])->name('home');
 Route::get('/delivered/{id}', [AdminController::class,'delivered'])->name('home');
 Route::get('/search', [AdminController::class,'searchdata'])->name('home');
+Route::get('/products', [HomeController::class,'products'])->name('home');
+Route::get('/blog', [HomeController::class,'blog'])->name('home');
+Route::get('/contact', [HomeController::class,'contact'])->name('home');

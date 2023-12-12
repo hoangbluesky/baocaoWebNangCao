@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 use App\Models\User;
 
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
+use RealRashid\SweetAlert\Facades\Alert;
 
-use Session;
+// use Session;
 use Stripe;
 class HomeController extends Controller
 {
@@ -25,7 +27,18 @@ class HomeController extends Controller
     {
         $usertype = Auth::user()->usertype;
         if ($usertype == "1"){
-            return view("admin.home");
+            $total_product = product::all()->count();
+            $total_order = order::all()->count();
+            $total_user = user::all()->count();
+            $order = order::all();
+            $total_revenue = 0;
+            foreach($order as $order){
+                $total_revenue = $total_revenue + $order->price;
+            }
+
+            $total_delivered = Order::where('delivery_status','=','delivered')->count();
+            $total_processing = Order::where('delivery_status','=','processing')->count();
+            return view("admin.home",compact("total_product","total_order","total_user","total_revenue","total_delivered","total_processing"));
         }
         else
         {
@@ -43,26 +56,45 @@ class HomeController extends Controller
     public function add_cart(Request $request,$id){
         if(Auth::id()){
             $user = Auth::user();
+            $userid = $user->id;
             $product = product::find($id);
-            $cart = new cart;
-            $cart->name = $user->name;
-            $cart->email = $user->email;
-            $cart->phone = $user->phone;
-            $cart->address = $user->address;
-            $cart->user_id = $user->id;
-            $cart->product_title = $product->title;
-            if($product->discount_price){
-                $cart->price = $product->discount_price * $request->quantity;
+            $product_exist_id = cart::where('Product_id','=',$id)->where('user_id','=',$userid)->get('id')->first();
+            if($product_exist_id){
+                $cart = cart::find($product_exist_id)->first();
+                $quantity = $cart->quantity;
+                $cart->quantity= $quantity + $request->$quantity;
+                if($product->discount_price){
+                    $cart->price = $product->discount_price * $request->quantity;
 
+                }else {
+                    $cart->price = $product->price * $request->quantity;
+
+                }
+                $cart->save();
+                Alert::success("Product Added Successfully",'We have addeed product to the cart');
+
+                return redirect()->back()->with('message','Product Addes Successfully');
             }else {
-                $cart->price = $product->price * $request->quantity;
+                $cart = new cart;
+                $cart->name = $user->name;
+                $cart->email = $user->email;
+                $cart->phone = $user->phone;
+                $cart->address = $user->address;
+                $cart->user_id = $user->id;
+                $cart->product_title = $product->title;
+                    if($product->discount_price){
+                        $cart->price = $product->discount_price * $request->quantity;
 
+                    }else {
+                        $cart->price = $product->price * $request->quantity;
+
+                    }
+                $cart->image = $product->image;
+                $cart->Product_id = $product->id;
+                $cart->quantity = $request->quantity;
+                $cart->save();
+                return redirect()->back()->with('message','Product Addes Successfully');
             }
-            $cart->image = $product->image;
-            $cart->Product_id = $product->id;
-            $cart->quantity = $request->quantity;
-            $cart->save();
-            return back()->with('success','');
 
         }else{
             return redirect('login');   
@@ -81,7 +113,7 @@ class HomeController extends Controller
     public function remove_cart($id){
         $cart = cart::find($id);
         $cart->delete();
-        return redirect('')->back()->with('success','');
+        return redirect()->back()->with('success','');
     }
     public function cash_order(){
         $user = Auth::user();
@@ -152,5 +184,15 @@ class HomeController extends Controller
         Session::flash('success', 'Payment successful!');
               
         return back();
+    }
+    public function products(){
+        $product = Product::paginate(10);
+        return view('home.all_product',compact('product'));
+    }
+    public function blog(){
+        return view('home.blog');
+    }
+    public function contact(){
+        return view('home.contact');
     }
 }

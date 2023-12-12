@@ -5,6 +5,13 @@
                   Our <span>products</span>
                </h2>
             </div>
+
+            @if(session()->has('message'))
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+                {{session()->get('message')}}
+            </div>
+            @endif
             <div class="row">
                @foreach($product as $products)
                
@@ -29,9 +36,9 @@
                         </div>
                      </div>
                      <div class="img-box">
-                        <img src="product/{{$products->image}}" alt="">
+                        <img style="max-height: 100%;" src="product/{{$products->image}}" alt="">
                      </div>
-                     <div class="detail-box">
+                     <div class="detail-box" style="margin-top: 10px;">
                         <h5>
                            {{$products->title}}
                         </h5>
