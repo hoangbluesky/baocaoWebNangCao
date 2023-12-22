@@ -109,7 +109,7 @@
                            </h6>
                         </div>
                         @else 
-                        <h6 class="price" style="color: blue;">
+                        <h6 class="price " style="color: blue; text-align: center;">
                            Price : 
                            
                            ${{$product->price}}
