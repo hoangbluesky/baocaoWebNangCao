@@ -39,11 +39,11 @@
                 @auth
                 <li class="nav-item">
                     <x-app-layout>
-        
+
                     </x-app-layout>
                 </li>
 
-                @else 
+                @else
                 <li class="nav-item">
                     <a class="btn btn-primary mr-3 ml-2" href="{{ route('login') }}">Login</a>
                 </li>

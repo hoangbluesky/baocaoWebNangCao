@@ -28,7 +28,7 @@ Route::middleware([
     })->name('dashboard');
 });
 Route::get('/redirect', [HomeController::class,'redirect'])->name('home');
-// Route::get('/login', [HomeController::class,'index'])->name('home');
+// Route::get('/register', [HomeController::class,'register'])->name('home');
 Route::get('/view_catagory', [AdminController::class,'view_catagory'])->name('home');
 Route::post('/add_catagory', [AdminController::class,'add_catagory'])->name('home');
 Route::get('/delete_catagory/{id}', [AdminController::class,'delete_catagory'])->name('home');
@@ -52,3 +52,5 @@ Route::get('/search', [AdminController::class,'searchdata'])->name('home');
 Route::get('/products', [HomeController::class,'products'])->name('home');
 Route::get('/blog', [HomeController::class,'blog'])->name('home');
 Route::get('/contact', [HomeController::class,'contact'])->name('home');
+Route::post('/vnpay_payment/{totalprice}', [HomeController::class,'vnpay_payment'])->name('home');
+

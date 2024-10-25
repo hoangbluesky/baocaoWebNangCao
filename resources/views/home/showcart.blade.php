@@ -48,6 +48,11 @@
             padding: 40px;
             font-weight: 700;
         }
+        .bxxx {
+            color: #fff !important;
+            background-color: #dc3545 !important;
+            border-color: #dc3545;
+        }
       </style>
    </head>
    <body>
@@ -86,26 +91,32 @@
             </tr>
             <?php $totalprice = $totalprice + $cart->price ?>
             @endforeach
-            
+
         </table>
-        <div> 
+        <div>
             <h2 class="total_deg">Total Price: ${{$totalprice}}</h2>
         </div>
         <div>
             <h2 style="font-size: 25px; padding-bottom: 15px;">Proceed to Order</h2>
             <a class="btn btn-danger" href="{{url('cash_order')}}">Cash On Delivery</a>
             <a class="btn btn-danger" href="{{url('stripe',$totalprice)}}">Pay Using Card</a>
+            <div style="display: inline-block;">
+                <form action="{{url('vnpay_payment',$totalprice)}}" method="POST">
+                @csrf
+                    <button  type="submit" class="btn btn-danger bxxx" name="redirect">VN Pay</button>
+                </form>
+            </div>
         </div>
       </div>
-      
+
       <!-- footer start -->
-      
+
       <!-- footer end -->
       <div class="cpy_">
          <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
-         
+
             Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-         
+
          </p>
       </div>
       <!-- jQery -->
